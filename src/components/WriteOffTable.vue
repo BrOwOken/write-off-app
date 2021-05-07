@@ -2,15 +2,15 @@
   <transition>
     <div v-if="show" class="writeoff-table">
       <h3>{{ writeOffName }}</h3>
-      <table>
+      <table class="table mt-3 table-striped">
         <tr>
-          <th>Rok</th>
-          <th>Zůstatková cena</th>
-          <th>Roční odpis</th>
-          <th>Odpis celkem</th>
+          <th scope="col">Rok</th>
+          <th scope="col">Zůstatková cena</th>
+          <th scope="col">Roční odpis</th>
+          <th scope="col">Odpis celkem</th>
         </tr>
         <tr v-for="writeOff in data" :key="writeOff.year">
-          <td>{{ writeOff.year }}</td>
+          <td scope="row">{{ writeOff.year }}</td>
           <td>{{ writeOff.restPrice }} Kč</td>
           <td>{{ writeOff.yearly }} Kč</td>
           <td>{{ writeOff.total }} Kč</td>
@@ -38,6 +38,28 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+.writeoff-table{
+  width: 100%;
+  margin-top: 32px;
+}
+table{
+  width: 100% !important;
+}
+th{
+  border-bottom: 1px solid #181717;
+  font-weight: bold;
+  text-align: left;
+  padding: 8px 0
+}
+td{
+  border-bottom: solid 1px #c8c5c5;
+  text-align: left;
+  padding: 8px 0
+}
+tr:last-of-type{
+  td{
+    border-bottom: none;
+  }
+}
 </style>

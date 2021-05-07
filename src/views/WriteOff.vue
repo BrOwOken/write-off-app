@@ -3,19 +3,19 @@
     <div class="form">
       <div class="form-group">
         <label for="name">Název</label>
-        <input type="text" v-model="writeOffName" id="name">
+        <input type="text" class="form-control" v-model="writeOffName" id="name">
       </div>
       <div class="form-group">
         <label for="price">Cena</label>
-        <input type="text" v-model="price" id="price">
+        <input type="text" v-model="price" class="form-control" id="price">
       </div>
       <div class="form-group">
         <label for="date">Rok pořízení</label>
-        <input type="number" v-model="year" id="date">
+        <input type="number" class="form-control" v-model="year" id="date">
       </div>
       <div class="form-group">
         <label for="group">Odpisová skupina</label>
-        <select id="group" v-model="group">
+        <select id="group" class="form-select" v-model="group">
           <option value="1">1 (3 roky)</option>
           <option value="2">2 (5 let)</option>
           <option value="3">3 (10 let)</option>
@@ -24,13 +24,16 @@
           <option value="6">6 (50 let)</option>
         </select>
       </div>
-      <div class="checkbox">
-        <input id="fastWriteOff" v-model="fastWriteOff" type="checkbox">
-        <label for="fastWriteOff">Zrychlený odpis</label>
+      <div class="form-group">
+        <div class="form-check">
+          <input id="fastWriteOff" class="form-check-input" v-model="fastWriteOff" type="checkbox">
+          <label for="fastWriteOff" class="form-check-label">Zrychlený odpis</label>
+        </div>
       </div>
-      <button v-on:click="calculateWriteOff()">Vypočítej</button>
+
+      <button class="btn btn-primary" style="width: 100%;" v-on:click="calculateWriteOff()">Vypočítej</button>
     </div>
-    <write-off-table :data="writeOffs" :show="showTable" :name="writeOffName"></write-off-table>
+    <write-off-table :data="writeOffs" :show="showTable" :write-off-name="writeOffName"></write-off-table>
   </div>
 </template>
 
@@ -67,42 +70,37 @@ export default {
       let yearsCount = 0
       let rest = this.price
       let total = 0
-      if(this.group === 1){
+      if(this.group == 1){
         firstYear = 20
         nextYears = 40
         firstYearC = 3
         nextYearsC = 4
         yearsCount = 3
-      }
-      if(this.group === 2){
+      } else if(this.group == 2){
         firstYear = 11
         nextYears = 22.25
         firstYearC = 5
         nextYearsC = 6
         yearsCount = 5
-      }
-      if(this.group === 3){
+      } else if(this.group == 3){
         firstYear = 5.5
         nextYears = 10.5
         firstYearC = 10
         nextYearsC = 11
         yearsCount = 10
-      }
-      if(this.group === 4){
+      } else if(this.group == 4){
         firstYear = 2.15
         nextYears = 5.15
         firstYearC = 20
         nextYearsC = 21
         yearsCount = 20
-      }
-      if(this.group === 5){
+      } else if(this.group == 5){
         firstYear = 1.4
         nextYears = 3.4
         firstYearC = 30
         nextYearsC = 31
         yearsCount = 30
-      }
-      if(this.group === 6){
+      } else if(this.group == 6){
         firstYear = 1.02
         nextYears = 2.02
         firstYearC = 50
@@ -120,7 +118,7 @@ export default {
 
           rest = rest - yearly
           total += yearly
-          this.writeOffs.push({year: this.year + i, restPrice: rest, yearly: yearly, total: total})
+          this.writeOffs.push({year: this.year + i, restPrice: Math.round(rest), yearly: Math.round(yearly), total: Math.round(total)})
         }
       } else {
         for (let i = 0; i < yearsCount; i++){
@@ -128,11 +126,12 @@ export default {
           if(i === 0){
             yearly = this.price / firstYearC
           }
-          else yearly = (2*rest) / (nextYearsC - (i+1))
+          else yearly = (2*rest) / (nextYearsC - i)
 
           rest = rest - yearly
           total += yearly
-          this.writeOffs.push({year: this.year + i, restPrice: rest, yearly: yearly, total: total})
+          this.writeOffs.push({year: this.year + i, restPrice: Math.round(rest), yearly: Math.round(yearly), total: Math.round(total)})
+
         }
       }
       this.showTable = true
@@ -150,7 +149,7 @@ export default {
   align-items: center;
 }
 .form{
-  max-width: 420px;
+  width: 420px;
 }
 .form-group{
   display: flex;
@@ -158,5 +157,6 @@ export default {
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
+  margin-bottom: 12px;
 }
 </style>
