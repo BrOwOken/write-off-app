@@ -1,5 +1,5 @@
 <template>
-  <transition>
+  <transition name="fade" appear>
     <div v-if="show" class="writeoff-table">
       <h3>{{ writeOffName }}</h3>
       <table class="table mt-3 table-striped">
@@ -60,6 +60,15 @@ td{
 tr:last-of-type{
   td{
     border-bottom: none;
+  }
+}
+.fade{
+  &-enter-active, &-leave-active{
+    transition: all 0.5s cubic-bezier(.21,.81,.7,.91);
+  }
+  &-enter-from{
+    transform: translateY(-48px);
+    opacity: 0;
   }
 }
 </style>

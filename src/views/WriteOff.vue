@@ -118,7 +118,7 @@ export default {
 
           rest = rest - yearly
           total += yearly
-          this.writeOffs.push({year: this.year + i, restPrice: Math.round(rest), yearly: Math.round(yearly), total: Math.round(total)})
+          this.writeOffs.push({year: parseInt(this.year) + parseInt(i), restPrice: Math.round(rest), yearly: Math.round(yearly), total: Math.round(total)})
         }
       } else {
         for (let i = 0; i < yearsCount; i++){
@@ -130,12 +130,11 @@ export default {
 
           rest = rest - yearly
           total += yearly
-          this.writeOffs.push({year: this.year + i, restPrice: Math.round(rest), yearly: Math.round(yearly), total: Math.round(total)})
+          this.writeOffs.push({year: parseInt(this.year) + parseInt(i), restPrice: Math.round(rest), yearly: Math.round(yearly), total: Math.round(total)})
 
         }
       }
       this.showTable = true
-      console.log(this.showTable)
     }
   }
 }
@@ -158,5 +157,11 @@ export default {
   align-items: flex-start;
   width: 100%;
   margin-bottom: 12px;
+}
+@media screen and(max-width: 600px){
+  .form{
+    width: 100%;
+    box-sizing: border-box;
+  }
 }
 </style>
